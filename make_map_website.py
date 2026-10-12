@@ -15,7 +15,7 @@ results_dir = "C:/Users/kibby/Files/base_data/maisrc/mn_es_data"
 code_dir = "C:/Users/kibby/Files/maisrc"
 
 SHAPEFILE = os.path.join(results_dir, "1_pebat_lakes_zonal_stats.gpkg") # path to your .shp (keep .dbf/.shx/.prj beside it)
-OUTPUT = os.path.join(code_dir, "website", "index.html")
+OUTPUT = os.path.join(code_dir, "docs", "index.html")
 TITLE_FIELD = None            # column to use as the hover label, e.g. "NAME" (None = first column)
 POPUP_FIELDS = None           # list of columns to show on click, e.g. ["NAME", "POP", "AREA"]
                               # (None = all columns)
