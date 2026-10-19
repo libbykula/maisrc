@@ -41,7 +41,7 @@ SIMPLIFY_TOLERANCE = 0.0001 # degrees; raise to shrink big files, 0 to disable
 METRICS_MANUAL = {
     "Bird Watching":  {"mean": "average_bird_watching", "sum": "sum_bird_watching"},
     'Carbon':   {'mean': 'average_carbon', 'sum': 'sum_carbon'},
-    'Groundwater Nitrate':   {'mean': 'average_gwn', 'sum': 'sum_gwn'},
+    'Drinking Water Protection against Groundwater Nitrate':   {'mean': 'average_gwn', 'sum': 'sum_gwn'},
     'Lake Recreation':   {'mean': 'average_lake_rec', 'sum': 'sum_lake_rec'},
     'Pheasant Hunting':   {'mean': 'average_pheasant_hunting', 'sum': 'sum_pheasant_hunting'},
     'Pollination':   {'mean': 'average_pollination', 'sum': 'sum_pollination'},
@@ -52,7 +52,7 @@ METRICS_MANUAL = {
     'Wild Rice':   {'mean': 'average_wild_rice', 'sum': 'sum_wild_rice'}
 }
 CATEGORIES = {
-    "Ecosystem Services": ["bird_watching", "carbon", "gwn", "lake_rec",
+    "Ecosystem Services": ["bird_watching", "carbon", "Drinking Water Protection against Groundwater Nitrate", "Lake Recreation",
                            "pheasant_hunting", "pollination", "trails", "trout_angling",
                            "wild_rice"],
     "Additional Considerations": ["population", "risk_of_change"],
