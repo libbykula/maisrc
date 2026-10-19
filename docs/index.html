@@ -27,19 +27,29 @@
   #s-out a { display: block; padding: 3px 2px; color: #1d4ed8; text-decoration: none; border-bottom: 1px solid #eee; }
   #s-out a:hover { background: #eef4ff; }
   .mini { margin: 6px 0 2px; font-size: 12px; color: #444; }
-  .mini i { display: inline-block; width: 10px; height: 10px; margin: 0 4px 0 8px; vertical-align: middle; }
-  .mini i:first-child { margin-left: 0; }
   .cat { font-weight: 600; background: #f3f3f3; padding: 2px 4px; margin-top: 8px; }
-  .crow { margin: 5px 0; padding: 2px 4px; border-radius: 3px; }
+  .crow { margin: 6px 0; padding: 2px 4px; border-radius: 3px; }
   .crow.active { background: #fff3cd; }
   .cname { display: flex; justify-content: space-between; font-weight: 600; }
   .cname .diff { font-weight: 400; color: #555; }
-  .bl { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
-  .track { flex: 1; height: 9px; background: #eee; border-radius: 2px; overflow: hidden; }
-  .fill { height: 100%; }
-  .fill.lake { background: #2563eb; }
-  .fill.state { background: #9ca3af; }
-  .bl span { width: 34px; text-align: right; font-variant-numeric: tabular-nums; }
+  .mini .sym { display: inline-block; vertical-align: middle; margin: 0 6px 0 12px; }
+  .mini .sym:first-child { margin-left: 0; }
+  .sym.lake { width: 11px; height: 11px; border-radius: 50%; background: #2563eb; }
+  .sym.state { width: 9px; height: 9px; background: #f59e0b; transform: rotate(45deg); margin-right: 8px; }
+  .axis { position: relative; height: 14px; margin: 4px 12px 0; font-size: 11px; color: #666; }
+  .axis span { position: absolute; transform: translateX(-50%); }
+  .dot-track { position: relative; height: 18px; margin: 2px 8px 0;
+    background: linear-gradient(#ccc,#ccc) 0 50% / 1px 10px no-repeat,
+                linear-gradient(#ccc,#ccc) 50% 50% / 1px 10px no-repeat,
+                linear-gradient(#ccc,#ccc) 100% 50% / 1px 10px no-repeat,
+                linear-gradient(#ddd,#ddd) 0 50% / 100% 2px no-repeat; }
+  .mk { position: absolute; top: 50%; }
+  .mk.lake { width: 12px; height: 12px; border-radius: 50%; background: #2563eb;
+             border: 1.5px solid #fff; transform: translate(-50%, -50%); z-index: 2; }
+  .mk.state { width: 10px; height: 10px; background: #f59e0b; border: 1px solid #fff;
+              transform: translate(-50%, -50%) rotate(45deg); z-index: 1; }
+  .gap { position: absolute; top: 50%; height: 3px; margin-top: -1px; background: #93c5fd; border-radius: 2px; }
+  .vals { display: flex; justify-content: space-between; font-size: 12px; color: #444; }
   table.pop { border-collapse: collapse; margin-top: 4px; }
   table.pop th, table.pop td { padding: 2px 8px; text-align: right; border-bottom: 1px solid #eee; }
   table.pop th:first-child, table.pop td:first-child { text-align: left; }
@@ -106,27 +116,33 @@ const isNum = v => v !== null && v !== undefined && !isNaN(v);
 const pct = v => Math.max(0, Math.min(1, v)) * 100;   // indices run 0-1
 const f2 = v => isNum(v) ? Number(v).toFixed(2) : "n/a";
  
-function barLine(cls, v) {
-  return '<div class="bl"><div class="track">'
-    + (isNum(v) ? '<div class="fill ' + cls + '" style="width:' + pct(v) + '%"></div>' : "")
-    + "</div><span>" + f2(v) + "</span></div>";
-}
- 
 function chartRow(label, lake, state, active) {
+  const hasL = isNum(lake), hasS = isNum(state);
   let diff = "";
-  if (isNum(lake) && isNum(state)) {
+  if (hasL && hasS) {
     const d = Number((lake - state).toFixed(2));
     diff = '<span class="diff">' + (d > 0 ? "+" : "") + d.toFixed(2) + " vs state</span>";
   }
+  let track = "";
+  if (hasL && hasS) {
+    const lo = Math.min(pct(lake), pct(state)), hi = Math.max(pct(lake), pct(state));
+    track += '<div class="gap" style="left:' + lo + "%;width:" + (hi - lo) + '%"></div>';
+  }
+  if (hasS) track += '<div class="mk state" style="left:' + pct(state) + '%" title="State average: ' + f2(state) + '"></div>';
+  if (hasL) track += '<div class="mk lake" style="left:' + pct(lake) + '%" title="This lake: ' + f2(lake) + '"></div>';
   return '<div class="crow' + (active ? " active" : "") + '"><div class="cname"><span>' + esc(label)
-    + "</span>" + diff + "</div>" + barLine("lake", lake) + barLine("state", state) + "</div>";
+    + "</span>" + diff + '</div><div class="dot-track">' + track + "</div>"
+    + '<div class="vals"><span>Lake <b>' + f2(lake) + "</b></span><span>State <b>" + f2(state)
+    + "</b></span></div></div>";
 }
  
 function popupHtml(p) {
   let h = "<b>" + esc(zoneName(p)) + "</b>";
   EXTRA_FIELDS.forEach(k => { h += "<br>" + esc(k) + ": " + esc(p[k]); });
-  h += '<div class="mini"><i style="background:#2563eb"></i>This lake'
-    + '<i style="background:#9ca3af"></i>State average (scale 0&ndash;1)</div>';
+  h += '<div class="mini"><span class="sym lake"></span>This lake'
+    + '<span class="sym state"></span>State average</div>'
+    + '<div class="axis"><span style="left:0%">0</span><span style="left:50%">0.5</span>'
+    + '<span style="left:100%">1</span></div>';
   let any = false;
   for (const cat of CATEGORY_ORDER) {
     const rows = metricsIn(cat).filter(m => METRICS[m].mean);   // sums aren't 0-1, so only averages are charted
