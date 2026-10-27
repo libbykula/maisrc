@@ -42,22 +42,26 @@ SIMPLIFY_TOLERANCE = 0.0001 # degrees; raise to shrink big files, 0 to disable
 # Optional: define metrics yourself instead of auto-detecting. Example:
 METRICS_MANUAL = {
     "Bird Watching":  {"mean": "average_bird_watching", "sum": "sum_bird_watching"},
+    # 'Boat Traffic': {'mean': 'PredictedAnnualTraffic_2018to2023'},
     'Carbon':   {'mean': 'average_carbon', 'sum': 'sum_carbon'},
     'Drinking Water Protection':   {'mean': 'average_gwn', 'sum': 'sum_gwn'},
     'Lake Recreation':   {'mean': 'average_lake_rec', 'sum': 'sum_lake_rec'},
-    'Pheasant Hunting':   {'mean': 'average_pheasant_hunting', 'sum': 'sum_pheasant_hunting'},
-    'Pollination':   {'mean': 'average_pollination', 'sum': 'sum_pollination'},
+    # 'Pheasant Hunting':   {'mean': 'average_pheasant_hunting', 'sum': 'sum_pheasant_hunting'},
+    # 'Pollination':   {'mean': 'average_pollination', 'sum': 'sum_pollination'},
     'Population':   {'mean': 'average_population', 'sum': 'sum_population'},
-    'Risk Of Change':   {'mean': 'average_risk_of_change', 'sum': 'sum_risk_of_change'},
+    # 'Risk Of Development':   {'mean': 'average_risk_of_change', 'sum': 'sum_risk_of_change'},
     'Trails':   {'mean': 'average_trails', 'sum': 'sum_trails'},
     'Trout Angling':  {'mean': 'average_trout_angling', 'sum': 'sum_trout_angling'},
     'Wild Rice':   {'mean': 'average_wild_rice', 'sum': 'sum_wild_rice'}
 }
 CATEGORIES = {
+    # "Ecosystem Services": ["bird_watching", "carbon", "gwn", "lake_rec",
+    #                        "pheasant_hunting", "pollination", "trails", "trout_angling",
+    #                        "wild_rice"],
     "Ecosystem Services": ["bird_watching", "carbon", "gwn", "lake_rec",
-                           "pheasant_hunting", "pollination", "trails", "trout_angling",
-                           "wild_rice"],
-    "Additional Considerations": ["population", "risk_of_change"],
+                               "trout_angling", "wild_rice"],
+    # "Additional Considerations": ["population", "risk_of_change"],
+    "Additional Considerations": ["population"]
 }
 # Any detected metric not listed above goes into an "Other" category.
 # ----------------------------------------------------
