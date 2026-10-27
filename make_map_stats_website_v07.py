@@ -50,7 +50,7 @@ METRICS_MANUAL = {
     # 'Pollination':   {'mean': 'average_pollination', 'sum': 'sum_pollination'},
     'Population':   {'mean': 'average_population', 'sum': 'sum_population'},
     # 'Risk Of Development':   {'mean': 'average_risk_of_change', 'sum': 'sum_risk_of_change'},
-    'Trails':   {'mean': 'average_trails', 'sum': 'sum_trails'},
+    # 'Trails':   {'mean': 'average_trails', 'sum': 'sum_trails'},
     'Trout Angling':  {'mean': 'average_trout_angling', 'sum': 'sum_trout_angling'},
     'Wild Rice':   {'mean': 'average_wild_rice', 'sum': 'sum_wild_rice'}
 }
